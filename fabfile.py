@@ -54,19 +54,21 @@ def restart():
 def copy_configs():
   config_files = ['admins.xml', 'players.xml', 'webpermissions.xml']
   for c in config_files:
-    get('{}/instances/{}/{}'.format(app_config.SDTD_DIR, env.instance, c),
-        'configs/{}/{}'.format(env.instance, c))
+    local_path = 'configs/{}/{}'.format(env.instance, c)
+    remote_path = '{}/instances/{}/{}'.format(app_config.SDTD_DIR, env.instance, c)
+    get(remote_path,
+        local_path)
 
 @task
 def deploy_configs():
   config_files = ['admins.xml', 'players.xml', 'webpermissions.xml']
   stop()
   for c in config_files:
-    orig_path = 'configs/{}/{}'.format(env.instance, c)
-    dest_path = '{}/instances/{}/{}'.format(app_config.SDTD_DIR, env.instance, c)
-    put(orig_path,
-        dest_path,
+    local_path = 'configs/{}/{}'.format(env.instance, c)
+    remote_path = '{}/instances/{}/{}'.format(app_config.SDTD_DIR, env.instance, c)
+    put(local_path,
+        remote_path,
         use_sudo=True)
-    sudo('chown sdtd:sdtd {}'.format(dest_path))
+    sudo('chown sdtd:sdtd {}'.format(remote_path))
 
   start()
