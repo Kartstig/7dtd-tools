@@ -89,3 +89,6 @@ ENV/
 .ropeproject
 
 Config.py
+
+# Instance configs
+configs/
