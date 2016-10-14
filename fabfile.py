@@ -46,6 +46,11 @@ def start():
   sudo('{} start {}'.format(app_config.SDTD_SCRIPT, env.instance))
 
 @task
+def restart():
+  stop()
+  start()
+
+@task
 def copy_configs():
   config_files = ['admins.xml', 'players.xml', 'webpermissions.xml']
   for c in config_files:
