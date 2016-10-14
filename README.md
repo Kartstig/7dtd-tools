@@ -2,11 +2,15 @@
 A toolkit for 7dtd servers
 
 ## Setup
+### Python Environment
 ```bash
 $ ./script/setup.sh
 ```
-
-This will install the python environment and dependencies
+### Configuration
+```bash
+$ cp Config.py.sample Config.py
+```
+Update these values to point to your 7DTD host
 
 ## Running
 ```bash
