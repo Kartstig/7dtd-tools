@@ -11,6 +11,13 @@ from sdtdtools.config import app_config
 env.hosts = ['{}@{}:{}'.format(app_config.SSH_USER,
     app_config.HOST, app_config.SSH_PORT)]
 
+_conf_files = [
+  'admins.xml',
+  'players.xml',
+  'webpermissions.xml',
+  'config.xml'
+]
+
 # Global Operations
 
 @task
@@ -52,8 +59,7 @@ def restart():
 
 @task
 def copy_configs():
-  config_files = ['admins.xml', 'players.xml', 'webpermissions.xml']
-  for c in config_files:
+  for c in _conf_files:
     local_path = 'configs/{}/{}'.format(env.instance, c)
     remote_path = '{}/instances/{}/{}'.format(app_config.SDTD_DIR, env.instance, c)
     get(remote_path,
@@ -61,9 +67,8 @@ def copy_configs():
 
 @task
 def deploy_configs():
-  config_files = ['admins.xml', 'players.xml', 'webpermissions.xml']
   stop()
-  for c in config_files:
+  for c in _conf_files:
     local_path = 'configs/{}/{}'.format(env.instance, c)
     remote_path = '{}/instances/{}/{}'.format(app_config.SDTD_DIR, env.instance, c)
     put(local_path,
