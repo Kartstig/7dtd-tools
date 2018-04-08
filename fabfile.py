@@ -6,6 +6,8 @@ import re, os
 from fabric.api import task, run, sudo, \
   env, hide, put, get
 from fabric.colors import red, green, yellow
+
+import sdtdtools as sdtd
 from sdtdtools.config import app_config
 
 env.hosts = ['{}@{}:{}'.format(app_config.SSH_USER,
@@ -19,6 +21,12 @@ _conf_files = [
 ]
 
 # Global Operations
+@task
+def uninstall():
+  sudo('rm {}'.format(' '.join(sdtd.LOCAL_FILES)))
+  sudo('rm -rf {}'.format(' '.join(sdtd.LOCAL_FOLDERS)))
+  sudo('userdel {}'.format(sdtd.USER))
+  sudo('groupdel {}'.format(sdtd.GROUP))
 
 @task
 def updateengine():
